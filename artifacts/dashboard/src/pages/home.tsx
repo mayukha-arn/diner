@@ -15,7 +15,7 @@ const FOOD_SVG_MAP: Record<string, React.ReactNode> = {
   "Homemade Cola": <HomemadeCola />,
 };
 
-const DEFAULT_SVGS = [<SmashBurger />, <SeasonedFries />, <StrawberrySundae />, <HomemadeCola />];
+const DEFAULT_SVGS = [<SmashBurger />, <SeasonedFries />, <HomemadeCola />, <StrawberrySundae />];
 
 export default function HomePage() {
   const { data: summary, isLoading: summaryLoading } = useGetDashboardSummary();
