@@ -1,0 +1,176 @@
+You are building a fullstack restaurant operations dashboard called "The Diner" for a 
+fullstack developer assignment. Below are the full technical requirements, design 
+direction, and visual assets.
+
+---
+
+## VISUAL IDENTITY
+
+The brand is a retro American diner. The design language is warm, bold, and slightly 
+hand-crafted — not corporate. Use these tokens:
+
+- Background: #f5ede0 (warm cream)
+- Surface: #ffffff
+- Primary: #E8401C (diner red)
+- Accent: #F5C842 (golden yellow)
+- Text: #1a1008 (near-black warm)
+- Muted text: #7a5c3a
+- Border: #1a1008 at 2px, slightly sketch-like
+- Border radius: 16px cards, 999px pills
+- Font: Caveat (cursive, headings/labels), DM Sans (body/UI)
+- Elevation: soft warm shadow — e.g. 0 8px 24px rgba(26,16,8,0.08)
+
+---
+
+## SVG FOOD GRAPHICS
+
+The dashboard's Home page and Menu page use custom top-down SVG food illustrations.
+These are bird's-eye-view drawings with visible layering (like looking straight down 
+at food on a table). Each graphic floats with a CSS animation 
+(keyframes: translateY 0 -> -7px -> 0, 3s ease-in-out infinite).
+
+Embed these four SVGs directly as inline SVG in the components where needed:
+
+### 1. Smash Burger (top-down)
+Layers visible from outside in: cheese square (rotated ~20deg, #F5C842), 
+jagged lettuce ring (#7bc94a → #5aa832), tomato circle (#d63020) with segment 
+lines, dark patty (#5a2e10) with grill marks, golden bun (#f0c060 → #f5ca70) 
+with ~12 sesame seed ellipses (#f0ecd0) scattered naturally. 
+Bun highlight ellipse top-left. Steam wisp animations on 3 paths above bun.
+Drop shadow ellipse below plate.
+
+### 2. Seasoned Fries (top-down)
+Red carton (#E8401C) as a trapezoid wider at top, seen slightly from above. 
+Center crease line. 6 golden fry sticks (#F5C842 / #EFB118 alternating), 
+each a rounded rect rotated slightly outward from center (-10 to +14 deg). 
+White salt dot specks on fries. Heat wisp animations above fries.
+
+### 3. Strawberry Sundae (top-down)
+Light blue bowl rim (#ddeeff → #c8e4f8), dark chocolate base (#3a1a08). 
+Two overlapping scoops: vanilla left (#faebd0) and grape/berry right (#b07acc), 
+each with highlight ellipse. Chocolate drizzle paths across both scoops. 
+Strawberry on top center (#e03020) with seed ellipses and green leaf path. 
+Silver spoon as grouped element (ellipse bowl + rect handle) rotated -35deg, 
+positioned to the right of the bowl.
+
+### 4. Homemade Cola (top-down)
+Warm coaster circle (#e8d5c0). Glass outer rim (#2c1008). Dark cola surface 
+(#3a1a08) with subtle sheen ellipse. 3 ice cube rects (#b8dcf0 / #c8e4f8) 
+with shine lines, each rotated differently. Static bubble ring circles + 
+animated expanding bubble circles (opacity+radius pulse, staggered delays). 
+Yellow straw (#F5C842) entering from upper right as a thick line + cross-section 
+circle with dark center.
+
+---
+
+## TECHNICAL REQUIREMENTS
+
+[paste the full contents of the PRD here]
+
+---
+
+## PAGES TO BUILD
+
+### Home
+- KPI cards: Total Orders, Revenue, Pending Orders, Popular Item
+- "Chef's Picks" / top sellers section using the 4 SVG food graphics above as 
+  visual anchors for the top menu items — displayed in a responsive grid, 
+  each floating with the CSS animation described above
+- Recent orders table
+
+### Orders
+- Filterable order list (status, date)
+- Order detail view
+- Status transition actions (e.g. Pending → Accepted → Ready → Fulfilled)
+- Status shown as colored badge pills
+
+### CRM
+- Customer list with order count, total spend, last order date
+- Customer detail with order history
+
+### Menu
+- Categories + items
+- Item cards using the food SVGs where item type matches
+- Toggle availability
+- Edit/create item modal
+
+### Settings
+- Prep time, auto-accept toggle, service availability, opening hours
+
+---
+
+## DESIGN SYSTEM REQUIREMENTS
+
+Build a dedicated /design-system route showing:
+- Color tokens
+- Typography scale (Caveat + DM Sans)
+- Spacing scale
+- All reusable components in all states (hover, focus, disabled, loading, error)
+- Skeleton loaders matching card/table shapes
+
+Reusable primitives required:
+Button (primary, secondary, ghost, destructive, sizes)
+Input, Select, Textarea, Checkbox, Toggle
+Modal/Drawer
+Card/Surface
+Table with sortable columns
+Badge/Status pill
+Toast/feedback
+Skeleton
+Navigation sidebar
+
+---
+
+## ARCHITECTURE FLOW
+
+Follow this exact pipeline:
+
+Drizzle schema → drizzle-zod → Hono + OpenAPI → Orval → generated hooks → 
+React Query → UI components
+
+Rules:
+- All frontend types come from Orval-generated output only
+- No handwritten DTOs or duplicated enums
+- Business logic in hooks/services, not page components
+- Design tokens centralized in a tokens file, imported everywhere
+- Generated API artifacts are never hand-edited
+
+---
+
+## REPO STRUCTURE
+
+apps/dashboard        ← Expo + React Native Web
+services/backend      ← Hono on Cloudflare Workers
+packages/shared       ← utilities, helpers
+packages/types        ← shared TS types
+packages/api-client   ← Orval-generated hooks + client
+
+Root scripts:
+pnpm dev:dashboard
+pnpm dev:backend
+pnpm gen:contract
+pnpm lint
+pnpm typecheck
+pnpm test
+
+---
+
+## SEED DATA
+
+Include a seed script that populates:
+- 4 menu categories (Burgers, Sides, Desserts, Drinks)
+- ~3 items per category (include the 4 hero items: Smash Burger $12.99, 
+  Seasoned Fries $4.99, Strawberry Sundae $6.49, Homemade Cola $2.99)
+- 5–10 customers
+- 10–20 orders in various statuses
+
+---
+
+## DELIVERABLES
+
+- GitHub repo with README covering: local setup, seed instructions, 
+  architecture decisions, known tradeoffs
+- All 5 pages functional with real backend data
+- Design system route
+- Backend tests covering order creation, status transitions, invalid payloads
+- Optional: Loom walkthrough
