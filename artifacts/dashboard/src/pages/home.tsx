@@ -12,6 +12,7 @@ const FOOD_SVG_MAP: Record<string, React.ReactNode> = {
   "Smash Burger": <SmashBurger />,
   "Seasoned Fries": <SeasonedFries />,
   "Strawberry Sundae": <StrawberrySundae />,
+  "Ice Cream Sundae": <StrawberrySundae />,
   "Homemade Cola": <HomemadeCola />,
 };
 
