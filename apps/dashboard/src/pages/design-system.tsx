@@ -5,6 +5,7 @@ import { SmashBurger } from "@/components/food-svgs/SmashBurger";
 import { SeasonedFries } from "@/components/food-svgs/SeasonedFries";
 import { StrawberrySundae } from "@/components/food-svgs/StrawberrySundae";
 import { HomemadeCola } from "@/components/food-svgs/HomemadeCola";
+import { colorTokens, spacingScale } from "@workspace/shared";
 
 const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
   <div className="mb-10">
@@ -32,14 +33,9 @@ export default function DesignSystemPage() {
         {/* Color Tokens */}
         <Section title="Color Tokens">
           <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4">
-            <Swatch name="Background" bg="bg-background" text="text-foreground" />
-            <Swatch name="Foreground" bg="bg-foreground" text="text-background" />
-            <Swatch name="Card" bg="bg-card" text="text-foreground" />
-            <Swatch name="Primary" bg="bg-primary" text="text-white" />
-            <Swatch name="Secondary" bg="bg-secondary" text="text-secondary-foreground" />
-            <Swatch name="Accent" bg="bg-accent" text="text-accent-foreground" />
-            <Swatch name="Muted" bg="bg-muted" text="text-muted-foreground" />
-            <Swatch name="Destructive" bg="bg-destructive" text="text-white" />
+            {colorTokens.map((token) => (
+              <Swatch key={token.name} name={token.name} bg={token.bg} text={token.text} />
+            ))}
           </div>
         </Section>
 
@@ -64,10 +60,10 @@ export default function DesignSystemPage() {
         {/* Spacing */}
         <Section title="Spacing Scale">
           <div className="flex items-end gap-3 flex-wrap bg-white rounded-2xl border-2 border-foreground p-6">
-            {[1, 2, 3, 4, 6, 8, 10, 12, 16].map((size) => (
-              <div key={size} className="flex flex-col items-center gap-1">
-                <div className={`bg-primary rounded`} style={{ width: size * 4, height: size * 4 }} />
-                <p className="font-sans text-xs text-muted-foreground">{size * 4}px</p>
+            {spacingScale.map((token) => (
+              <div key={token.value} className="flex flex-col items-center gap-1">
+                <div className="bg-primary rounded" style={{ width: token.size, height: token.size }} />
+                <p className="font-sans text-xs text-muted-foreground">{token.label}</p>
               </div>
             ))}
           </div>
